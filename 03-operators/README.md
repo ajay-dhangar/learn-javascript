@@ -179,13 +179,132 @@ console.log(value); // "Default"
 
 ## 💬 12. Interview Questions
 
-1. What is the difference between `==` and `===`?
-2. What is a ternary operator in JS?
-3. What is short-circuit evaluation?
-4. How does optional chaining prevent errors?
-5. What is the difference between `&&` and `||`?
-6. Explain bitwise AND with an example.
-7. What is the use of the `delete` operator?
+<details>
+<summary><strong>1. What is the difference between <code>==</code> and <code>===</code>?</strong></summary>
+
+In JavaScript:
+
+* **`==` (Loose Equality)**: Compares two values for equality after converting both values to a common type (type coercion). For example, `5 == '5'` returns `true` because the string `'5'` is converted to the number `5` before comparison.
+
+* **`===` (Strict Equality)**: Compares both the value and the type without performing any type conversion. For example, `5 === '5'` returns `false` because the types (number and string) are different.
+
+**Best Practice**: Use `===` to avoid unexpected type conversions and ensure both value and type match.
+
+</details>
+
+<details>
+<summary><strong>2. What is a ternary operator in JavaScript?</strong></summary>
+
+The **ternary operator** is a concise way to perform conditional operations. It takes three operands:
+
+```javascript
+condition ? expressionIfTrue : expressionIfFalse;
+```
+
+**Example**:
+
+```javascript
+let age = 20;
+let beverage = age >= 18 ? "Beer" : "Juice";
+console.log(beverage); // Outputs: "Beer"
+```
+
+It's a shorthand for simple `if-else` statements.
+
+</details>
+
+<details>
+<summary><strong>3. What is short-circuit evaluation?</strong></summary>
+
+**Short-circuit evaluation** refers to the process where JavaScript evaluates logical expressions from left to right and stops as soon as the outcome is determined.
+
+* **Logical AND (`&&`)**: If the first operand is falsy, the entire expression returns that falsy value without evaluating the second operand.
+
+* **Logical OR (`||`)**: If the first operand is truthy, the entire expression returns that truthy value without evaluating the second operand.
+
+**Example**:
+
+```javascript
+let result = null || "Default";
+console.log(result); // Outputs: "Default"
+```
+
+Here, `null` is falsy, so the `||` operator returns the second operand.
+
+</details>
+
+<details>
+<summary><strong>4. How does optional chaining prevent errors?</strong></summary>
+
+**Optional chaining (`?.`)** allows you to safely access deeply nested object properties without having to check each level manually.
+
+**Example**:
+
+```javascript
+let user = {};
+console.log(user.profile?.name); // Outputs: undefined
+```
+
+Without optional chaining, accessing `user.profile.name` would throw an error if `profile` is undefined. Optional chaining prevents such errors by short-circuiting the evaluation if any part of the chain is `null` or `undefined`.
+
+</details>
+
+<details>
+<summary><strong>5. What is the difference between <code>&&</code> and <code>||</code>?</strong></summary>
+
+* **`&&` (Logical AND)**: Returns the first falsy operand or the last operand if all are truthy. It's used when all conditions need to be true.
+
+* **`||` (Logical OR)**: Returns the first truthy operand or the last operand if all are falsy. It's used when at least one condition needs to be true.
+
+**Example**:
+
+```javascript
+console.log(true && false); // Outputs: false
+console.log(false || true); // Outputs: true
+```
+
+These operators are also used for control flow and setting default values.
+
+</details>
+
+<details>
+<summary><strong>6. Explain bitwise AND with an example.</strong></summary>
+
+The **bitwise AND (`&`)** operator performs a binary AND operation on two numbers.
+
+**Example**:
+
+```javascript
+let a = 5;  // Binary: 0101
+let b = 3;  // Binary: 0011
+let result = a & b; // Binary: 0001
+console.log(result); // Outputs: 1
+```
+
+Each bit of the result is `1` only if the corresponding bits of both operands are `1`.
+
+</details>
+
+<details>
+<summary><strong>7. What is the use of the <code>delete</code> operator?</strong></summary>
+
+The **`delete`** operator is used to remove a property from an object.
+
+**Example**:
+
+```javascript
+let obj = { name: "Alice", age: 25 };
+delete obj.age;
+console.log(obj); // Outputs: { name: "Alice" }
+```
+
+**Notes**:
+
+* It removes the property from the object, and the property becomes undefined.
+* It does not affect variables or functions declared with `var`, `let`, or `const`.
+* When used on arrays, it removes the element but does not update the length, leading to sparse arrays.
+
+</details>
 
 ---
 

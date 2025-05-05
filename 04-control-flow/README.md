@@ -275,6 +275,238 @@ for (let i = 0; i < 5; i++) {
 
 ---
 
+## 💬 JavaScript Control Flow Interview Questions & Answers
+
+<details>
+<summary><strong>1. What is the difference between <code>if</code> and <code>switch</code> statements?</strong></summary>
+
+Both `if` and `switch` statements are used for conditional execution of code blocks.
+
+* **`if` Statement**: Evaluates boolean expressions and is suitable for complex conditions.
+
+  **Example:**
+
+```javascript
+  let age = 25;
+  if (age < 18) {
+    console.log("Minor");
+  } else if (age >= 18 && age < 65) {
+    console.log("Adult");
+  } else {
+    console.log("Senior");
+  }
+```
+
+
+
+* **`switch` Statement**: Evaluates an expression against multiple possible values. It's cleaner when checking a variable against many constant values.
+
+  **Example:**
+
+```javascript
+  let day = 3;
+  switch (day) {
+    case 1:
+      console.log("Monday");
+      break;
+    case 2:
+      console.log("Tuesday");
+      break;
+    case 3:
+      console.log("Wednesday");
+      break;
+    default:
+      console.log("Another day");
+  }
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>2. How does a <code>for</code> loop differ from a <code>while</code> loop?</strong></summary>
+
+Both loops are used for iteration but differ in syntax and typical use cases.
+
+* **`for` Loop**: Best when the number of iterations is known.
+
+  **Example:**
+
+```javascript
+  for (let i = 0; i < 5; i++) {
+    console.log(i);
+  }
+```
+
+
+
+* **`while` Loop**: Best when the number of iterations is not known in advance.([Wikipedia][1])
+
+  **Example:**
+
+```javascript
+  let i = 0;
+  while (i < 5) {
+    console.log(i);
+    i++;
+  }
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>3. What is the purpose of the <code>break</code> and <code>continue</code> statements?</strong></summary>
+
+* **`break`**: Terminates the current loop or switch statement.([GeeksforGeeks][2])
+
+  **Example:**
+
+```javascript
+  for (let i = 0; i < 10; i++) {
+    if (i === 5) break;
+    console.log(i);
+  }
+  // Outputs: 0 1 2 3 4
+```
+
+
+
+* **`continue`**: Skips the current iteration and continues with the next one.([GeeksforGeeks][3])
+
+  **Example:**
+
+```javascript
+  for (let i = 0; i < 5; i++) {
+    if (i === 2) continue;
+    console.log(i);
+  }
+  // Outputs: 0 1 3 4
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>4. How do <code>for...in</code> and <code>for...of</code> loops differ?</strong></summary>
+
+* **`for...in`**: Iterates over enumerable properties of an object (keys).
+
+  **Example:**
+
+```javascript
+  const obj = { a: 1, b: 2 };
+  for (let key in obj) {
+    console.log(key); // Outputs: 'a', 'b'
+  }
+```
+
+
+
+* **`for...of`**: Iterates over iterable objects like arrays, strings, etc.
+
+  **Example:**
+
+```javascript
+  const arr = [1, 2, 3];
+  for (let value of arr) {
+    console.log(value); // Outputs: 1, 2, 3
+  }
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>5. What is a ternary operator, and how is it used?</strong></summary>
+
+The ternary operator is a concise way to perform conditional assignments.
+
+**Syntax:**
+
+```javascript
+condition ? expressionIfTrue : expressionIfFalse;
+```
+
+
+
+**Example:**
+
+```javascript
+let age = 20;
+let beverage = age >= 18 ? "Beer" : "Juice";
+console.log(beverage); // Outputs: "Beer"
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>6. How does the <code>do...while</code> loop work?</strong></summary>
+
+The `do...while` loop executes the code block once before checking the condition, ensuring that the block is executed at least once.
+
+**Example:**
+
+```javascript
+let i = 0;
+do {
+  console.log(i);
+  i++;
+} while (i < 5);
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>7. Can you provide an example of using a <code>while</code> loop to calculate the sum of numbers from 1 to 100?</strong></summary>
+
+Certainly!
+
+```javascript
+let sum = 0;
+let i = 1;
+while (i <= 100) {
+  sum += i;
+  i++;
+}
+console.log("The sum is:", sum); // Outputs: The sum is: 5050
+```
+
+
+
+</details>
+
+<details>
+<summary><strong>8. How would you use a <code>do...while</code> loop to prompt a user until they enter the correct password?</strong></summary>
+
+Here's how you can implement it:([web.dev][4])
+
+```javascript
+let password;
+do {
+  password = prompt("Enter your password:");
+} while (password !== "correctPassword");
+console.log("Access granted.");
+```
+
+
+
+This loop will continue prompting the user until they enter "correctPassword".([Medium][5])
+
+</details>
+
+---
+
+These questions and answers should provide a solid understanding of control flow in JavaScript and prepare you for related interview topics.
+
 ## 🧠 Summary
 
 * Use `if`, `else if`, and `else` to execute code blocks based on conditions.

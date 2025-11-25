@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenJS Learn - Live JavaScript Sandbox</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the code editor area */
+        body { font-family: 'Inter', sans-serif; background-color: #f7f7f7; }
+
+        /* Style for the code editor textarea */
+        #code-editor {
+            font-family: 'Courier New', monospace;
+            min-height: 250px;
+            tab-size: 4;
+            /* Simple glowing focus effect */
+            transition: box-shadow 0.2s;
+        }
+        #code-editor:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue-500 ring */
+        }
+
+        /* Style for the console output */
+        #output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 100px;
+            background-color: #1f2937; /* Dark background */
+            color: #10b981; /* Green text for console */
+            border-top: 1px solid #374151;
+        }
+
+        /* Custom scrollbar styling for the sidebar and editor */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md p-4 sticky top-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-indigo-600">
+                <span class="text-gray-900">Open</span>JS Learn
+            </h1>
+            <nav class="hidden sm:block">
+                <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-lg transition">Home</a>
+                <a href="#" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-lg transition">Resources</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Sidebar for Lessons -->
+        <aside class="lg:col-span-1 bg-white rounded-xl shadow-lg p-4 overflow-y-auto custom-scroll">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2">JavaScript Fundamentals</h2>
+            <nav id="lesson-nav">
+                <!-- Lesson buttons will be injected here -->
+            </nav>
+        </aside>
+
+        <!-- Main Learning Area (Lesson Content & Live Editor) -->
+        <section class="lg:col-span-3">
+            <div id="lesson-view" class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h2 id="lesson-title" class="text-2xl font-bold text-gray-800 mb-3"></h2>
+                <p id="lesson-content" class="text-gray-600 mb-6"></p>
+
+                <!-- Live Code Editor -->
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-300">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-700">Live Code Sandbox (Open Source)</h3>
+                    <textarea id="code-editor" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 outline-none resize-y" placeholder="// Write your JavaScript code here..."></textarea>
+                    <button onclick="runCode()" class="mt-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                        Run Code
+                    </button>
+                </div>
+
+                <!-- Console Output -->
+                <div class="mt-6 rounded-lg overflow-hidden border border-gray-700">
+                    <div class="bg-gray-800 text-white px-4 py-2 font-mono text-sm flex justify-between items-center">
+                        <span class="font-bold">Console Output</span>
+                        <button onclick="clearOutput()" class="text-red-400 hover:text-red-300 text-xs transition">Clear</button>
+                    </div>
+                    <pre id="output" class="p-4 text-sm"></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-6 mt-8">
+        <div class="container mx-auto text-center text-sm">
+            <p>&copy; <span id="year"></span> OpenJS Learn. All content is Open Source and free to use.</p>
+            <p class="mt-1 text-gray-400">Built with HTML, Tailwind CSS, and pure JavaScript for live learning.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Core Application Data (Open Source Content) ---
+        const lessons = [
+            {
+                id: 'intro',
+                title: '1. Introduction to JavaScript',
+                content: 'JavaScript is the programming language of the Web. It allows you to create dynamically updating content, control multimedia, animate images, and much more. It is a critical skill for any modern developer. Use the sandbox below to try your first command!',
+                initialCode: 'console.log("Welcome to OpenJS Learn!");'
+            },
+            {
+                id: 'variables',
+                title: '2. Variables and Data Types (let, const)',
+                content: 'Variables are containers for storing data values. In JS, you primarily use the `let` and `const` keywords. Use `const` for values that should not change (constants), and `let` for values that you expect to reassign.',
+                initialCode: 'const courseName = "JS Basics";\nlet currentYear = 2025;\n\ncurrentYear = currentYear + 1;\n\nconsole.log(courseName);\nconsole.log("Next year:", currentYear);'
+            },
+            {
+                id: 'functions',
+                title: '3. Functions and Scope',
+                content: 'Functions are blocks of code designed to perform a particular task. They help you organize your code and make it reusable. You define a function using the `function` keyword or arrow syntax (`=>`).',
+                initialCode: 'function greet(name) {\n  return "Hello, " + name + "!";\n}\n\nconst square = (x) => x * x;\n\nconsole.log(greet("Learner"));\nconsole.log("5 squared is:", square(5));'
+            },
+            {
+                id: 'conditionals',
+                title: '4. Conditional Logic (if/else)',
+                content: 'Conditional statements are used to perform different actions based on different conditions. The `if` statement executes code if a condition is true, and the `else` block executes if it is false.',
+                initialCode: 'let userAge = 18;\n\nif (userAge >= 18) {\n  console.log("Access Granted.");\n} else {\n  console.log("Access Denied.");\n}'
+            }
+        ];
+
+        // --- DOM Elements & State ---
+        const codeEditor = document.getElementById('code-editor');
+        const outputElement = document.getElementById('output');
+        const lessonTitle = document.getElementById('lesson-title');
+        const lessonContent = document.getElementById('lesson-content');
+        const lessonNav = document.getElementById('lesson-nav');
+
+        let currentLessonId = 'intro';
+
+        // --- Utility Functions ---
+
+        /**
+         * Safely executes user-provided JavaScript code and captures console output.
+         */
+        function runCode() {
+            const code = codeEditor.value;
+            let consoleOutput = '';
+
+            // Override console.log to capture output
+            const originalConsoleLog = console.log;
+            console.log = (...args) => {
+                // Also log to the browser console for debugging
+                originalConsoleLog.apply(console, args);
+                // Capture output for display in the console area
+                consoleOutput += args.join(' ') + '\n';
+            };
+
+            outputElement.textContent = '...Running...\n';
+
+            try {
+                // Execute the code using eval()
+                eval(code);
+
+                // Display the captured output
+                outputElement.textContent = consoleOutput.trim() || 'Code executed successfully (no console output).';
+                outputElement.style.color = '#10b981'; // Green for success
+            } catch (e) {
+                // Display error
+                outputElement.textContent = `Execution Error:\n${e.name}: ${e.message}`;
+                outputElement.style.color = '#f87171'; // Red for error
+            } finally {
+                // Restore the original console.log function
+                console.log = originalConsoleLog;
+            }
+        }
+
+        /**
+         * Clears the console output display.
+         */
+        function clearOutput() {
+            outputElement.textContent = '';
+            outputElement.style.color = '#10b981';
+        }
+
+        /**
+         * Loads and displays the content for a specific lesson.
+         * @param {string} lessonId The ID of the lesson to load.
+         */
+        function loadLesson(lessonId) {
+            const lesson = lessons.find(l => l.id === lessonId);
+            if (!lesson) return;
+
+            // Update state and content
+            currentLessonId = lessonId;
+            lessonTitle.textContent = lesson.title;
+            lessonContent.textContent = lesson.content;
+            codeEditor.value = lesson.initialCode;
+            clearOutput();
+
+            // Update active state in navigation
+            document.querySelectorAll('#lesson-nav button').forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'font-semibold');
+                btn.classList.add('hover:bg-gray-100', 'text-gray-700', 'font-normal');
+            });
+
+            const activeBtn = document.getElementById(`nav-${lessonId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-indigo-100', 'text-indigo-800', 'font-semibold');
+                activeBtn.classList.remove('hover:bg-gray-100', 'text-gray-700', 'font-normal');
+            }
+
+            // Scroll to the top of the lesson view on mobile/small screens
+            document.getElementById('lesson-view').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /**
+         * Initializes the sidebar navigation elements.
+         */
+        function initNavigation() {
+            lessons.forEach(lesson => {
+                const button = document.createElement('button');
+                button.id = `nav-${lesson.id}`;
+                button.className = 'w-full text-left p-3 rounded-lg transition duration-150 block mb-2 hover:bg-gray-100 text-gray-700 font-normal';
+                button.textContent = lesson.title;
+                button.onclick = () => loadLesson(lesson.id);
+                lessonNav.appendChild(button);
+            });
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+            // Load the first lesson by default
+            loadLesson(lessons[0].id);
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
